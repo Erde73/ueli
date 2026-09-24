@@ -10,6 +10,7 @@ if (!app.requestSingleInstanceLock()) {
 
     const {
         clipboard,
+        ClipboardItem,
         dialog,
         globalShortcut,
         ipcMain,
@@ -31,6 +32,7 @@ if (!app.requestSingleInstanceLock()) {
     // Electron and Node Modules
     moduleRegistry.register("App", app);
     moduleRegistry.register("Clipboard", clipboard);
+    moduleRegistry.register("ClipboardItemConstructor", ClipboardItem);
     moduleRegistry.register("Dialog", dialog);
     moduleRegistry.register("Emitter", mitt<Record<string, unknown>>());
     moduleRegistry.register("GlobalShortcut", globalShortcut);
@@ -93,6 +95,10 @@ if (!app.requestSingleInstanceLock()) {
     Core.TerminalModule.bootstrap(moduleRegistry);
     Core.ExtensionRegistryModule.bootstrap(moduleRegistry);
     Core.DragAndDropModule.bootstrap(moduleRegistry);
+    await Core.ClipboardManagerDatabaseModule.bootstrap(moduleRegistry);
+    await Core.ClipboardHistoryModule.bootstrap(moduleRegistry);
+    Core.AutoPasteModule.bootstrap(moduleRegistry);
+    Core.SnippetManagerModule.bootstrap(moduleRegistry);
 
     // Extensions
     Extensions.ExtensionLoader.bootstrap(moduleRegistry);

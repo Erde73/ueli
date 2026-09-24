@@ -10,6 +10,7 @@ import type {
 } from "@Core/BrowserWindow";
 import type { BrowserWindowNotifier } from "@Core/BrowserWindowNotifier";
 import type { BrowserWindowRegistry } from "@Core/BrowserWindowRegistry";
+import type { ClipboardHistoryRepository } from "@Core/ClipboardHistory";
 import type { CommandlineUtility } from "@Core/CommandlineUtility";
 import type { DateProvider } from "@Core/DateProvider";
 import type { EnvironmentVariableProvider } from "@Core/EnvironmentVariableProvider";
@@ -30,6 +31,7 @@ import type { SettingsFile } from "@Core/SettingsFile";
 import type { SettingsManager } from "@Core/SettingsManager";
 import type { SettingsReader } from "@Core/SettingsReader";
 import type { SettingsWriter } from "@Core/SettingsWriter";
+import type { SnippetRepository } from "@Core/SnippetManager";
 import type { TaskScheduler } from "@Core/TaskScheduler";
 import type { TerminalRegistry } from "@Core/Terminal";
 import type { Translator } from "@Core/Translator";
@@ -37,9 +39,11 @@ import type { UeliCommandInvoker } from "@Core/UeliCommand";
 import type { WebBrowserRegistry } from "@Core/WebBrowser/Contract";
 import type { XmlBuilder } from "@Core/XmlBuilder";
 import type { XmlParser } from "@Core/XmlParser";
+import type Database from "better-sqlite3";
 import type {
     App,
     Clipboard,
+    ClipboardItem,
     Dialog,
     GlobalShortcut,
     IpcMain,
@@ -64,6 +68,10 @@ export type UeliModules = {
     BrowserWindowRegistry: BrowserWindowRegistry;
     BrowserWindowVibrancyProvider: BrowserWindowVibrancyProvider;
     Clipboard: Clipboard;
+    ClipboardHistoryRepository: ClipboardHistoryRepository;
+    ClipboardImagesFolderPath: string;
+    ClipboardItemConstructor: typeof ClipboardItem;
+    ClipboardManagerDatabase: Database.Database;
     CommandlineUtility: CommandlineUtility;
     DateProvider: DateProvider;
     Dialog: Dialog;
@@ -95,6 +103,7 @@ export type UeliModules = {
     SettingsReader: SettingsReader;
     SettingsWriter: SettingsWriter;
     Shell: Shell;
+    SnippetRepository: SnippetRepository;
     SystemPreferences: SystemPreferences;
     TaskScheduler: TaskScheduler;
     TerminalRegistry: TerminalRegistry;
