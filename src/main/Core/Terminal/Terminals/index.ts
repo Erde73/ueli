@@ -1,4 +1,5 @@
 export * from "./CommandPrompt";
+export * from "./Ghostty";
 export * from "./Iterm";
 export * from "./MacOsTerminal";
 export * from "./Powershell";
