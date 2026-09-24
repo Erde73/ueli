@@ -5,6 +5,7 @@ import { ApplicationSearchModule } from "./ApplicationSearch";
 import { Base64ConversionModule } from "./Base64Conversion";
 import { BrowserBookmarksModule } from "./BrowserBookmarks";
 import { CalculatorModule } from "./Calculator";
+import { ClipboardManagerModule } from "./ClipboardManager";
 import { ColorConverterExtensionModule } from "./ColorConverter";
 import { CurrencyConversionModule } from "./CurrencyConversion/CurrencyConversionModule";
 import { CustomWebSearchModule } from "./CustomWebSearch";
@@ -38,6 +39,7 @@ export class ExtensionLoader {
             new Base64ConversionModule(),
             new BrowserBookmarksModule(),
             new CalculatorModule(),
+            new ClipboardManagerModule(),
             new ColorConverterExtensionModule(),
             new CurrencyConversionModule(),
             new CustomWebSearchModule(),

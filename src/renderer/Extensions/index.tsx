@@ -5,6 +5,7 @@ import { ApplicationSearchSettings } from "./ApplicationSearch";
 import { Base64Conversion, Base64ConversionSettings } from "./Base64Conversion";
 import { BrowserBookmarksSettings } from "./BrowserBookmarks";
 import { CalculatorSettings } from "./Calculator";
+import { ClipboardManagerSettings } from "./ClipboardManager";
 import { ColorConverterSettings } from "./ColorConverter";
 import { CurrencyConversionSettings } from "./CurrencyConversion";
 import { CustomWebSearchSettings } from "./CustomWebSearch";
@@ -46,6 +47,9 @@ export const getExtension = (extensionId: string): ExtensionReactElements | unde
         },
         Calculator: {
             settings: <CalculatorSettings />,
+        },
+        ClipboardManager: {
+            settings: <ClipboardManagerSettings />,
         },
         ColorConverter: {
             settings: <ColorConverterSettings />,

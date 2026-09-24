@@ -8,6 +8,7 @@ export type FluentIcon =
     | "ArrowClockwiseRegular"
     | "ArrowSquareUpRightRegular"
     | "CheckmarkCircleRegular"
+    | "ClipboardPasteRegular"
     | "CopyRegular"
     | "DeleteDismissRegular"
     | "DismissCircleRegular"
