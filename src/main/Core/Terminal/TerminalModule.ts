@@ -4,7 +4,7 @@ import type { UeliModuleRegistry } from "@Core/ModuleRegistry";
 
 import type { Terminal as TerminalContract } from "./Contract";
 import { TerminalRegistry } from "./TerminalRegistry";
-import { CommandPrompt, Iterm, MacOsTerminal, Powershell, PowershellCore, Wsl } from "./Terminals";
+import { CommandPrompt, Ghostty, Iterm, MacOsTerminal, Powershell, PowershellCore, Wsl } from "./Terminals";
 
 export class TerminalModule {
     public static bootstrap(moduleRegistry: UeliModuleRegistry) {
@@ -16,6 +16,7 @@ export class TerminalModule {
             macOS: () => [
                 new MacOsTerminal(moduleRegistry.get("AppleScriptUtility")),
                 new Iterm(moduleRegistry.get("AppleScriptUtility")),
+                new Ghostty(moduleRegistry.get("AppleScriptUtility")),
             ],
             Windows: () => [
                 new CommandPrompt(moduleRegistry.get("CommandlineUtility")),
