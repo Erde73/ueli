@@ -10,6 +10,7 @@ import {
 import { getExtensionSettingKey } from "@common/Core/Extension";
 import type { SearchEngineId } from "@common/Core/Search";
 import { searchFilter } from "@common/Core/Search/SearchFilter";
+import type { InvocationArgument } from "@common/Extensions/ClipboardManager";
 import type { AssetPathResolver } from "@Core/AssetPathResolver";
 import type { PasteActionArgument } from "@Core/AutoPaste";
 import type { ClipboardHistoryEntry, ClipboardHistoryRepository } from "@Core/ClipboardHistory";
@@ -92,6 +93,19 @@ export class ClipboardManagerExtension implements Extension {
                 autoPasteDelayMsLabel: "Auto-paste delay (ms)",
                 autoPasteDelayMsDescription:
                     "Delay before sending the paste keystroke, to give the previous app time to regain focus.",
+                snippetsSectionTitle: "Snippets",
+                snippetNameHeader: "Name",
+                snippetContentHeader: "Content",
+                addSnippet: "Add snippet",
+                editSnippet: "Edit snippet",
+                snippetNameLabel: "Name",
+                snippetContentLabel: "Content",
+                snippetNameRequiredError: "Name is required",
+                snippetContentRequiredError: "Content is required",
+                save: "Save",
+                cancel: "Cancel",
+                edit: "Edit",
+                remove: "Remove",
             },
         };
     }
@@ -110,6 +124,31 @@ export class ClipboardManagerExtension implements Extension {
         }
 
         return createEmptyInstantSearchResult();
+    }
+
+    public async invoke(argument: unknown): Promise<Snippet[]> {
+        const invocationArgument = argument as InvocationArgument;
+
+        switch (invocationArgument.type) {
+            case "add":
+                this.snippetRepository.add({ name: invocationArgument.name, content: invocationArgument.content });
+                break;
+            case "update":
+                this.snippetRepository.update({
+                    id: invocationArgument.id,
+                    name: invocationArgument.name,
+                    content: invocationArgument.content,
+                });
+                break;
+            case "delete":
+                this.snippetRepository.delete(invocationArgument.id);
+                break;
+            case "getAll":
+            default:
+                break;
+        }
+
+        return this.snippetRepository.getAll();
     }
 
     private getHistoryResults(query: string): InstantSearchResultItems {

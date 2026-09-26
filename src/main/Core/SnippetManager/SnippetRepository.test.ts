@@ -65,6 +65,34 @@ describe(SnippetRepository, () => {
         });
     });
 
+    describe(SnippetRepository.prototype.update, () => {
+        it("should update the name and content and refresh the updatedAt timestamp", () => {
+            repository.add({ name: "greeting", content: "Hello there" });
+            const [snippet] = repository.getAll();
+
+            now = 2000;
+            repository.update({ id: snippet.id, name: "farewell", content: "Goodbye" });
+
+            const [updated] = repository.getAll();
+            expect(updated).toMatchObject({
+                name: "farewell",
+                content: "Goodbye",
+                updatedAt: 2000,
+            });
+        });
+
+        it("should not affect other snippets", () => {
+            repository.add({ name: "first", content: "one" });
+            repository.add({ name: "second", content: "two" });
+            const [, second] = repository.getAll();
+
+            repository.update({ id: second.id, name: "renamed", content: "changed" });
+
+            const untouched = repository.getAll().find((s) => s.name === "first");
+            expect(untouched).toMatchObject({ name: "first", content: "one" });
+        });
+    });
+
     describe(SnippetRepository.prototype.incrementUsage, () => {
         it("should increment the use count and update the updatedAt timestamp", () => {
             repository.add({ name: "greeting", content: "Hello there" });

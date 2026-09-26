@@ -26,6 +26,7 @@ const createExtension = ({
     snippetRepository = <SnippetRepository>{
         getAll: vi.fn().mockReturnValue([]),
         add: vi.fn(),
+        update: vi.fn(),
         delete: vi.fn(),
         incrementUsage: vi.fn(),
     },
@@ -264,6 +265,7 @@ describe(ClipboardManagerExtension, () => {
                     .fn()
                     .mockReturnValue([makeSnippet({ id: 1, name: "first" }), makeSnippet({ id: 2, name: "second" })]),
                 add: vi.fn(),
+                update: vi.fn(),
                 delete: vi.fn(),
                 incrementUsage: vi.fn(),
             };
@@ -280,6 +282,7 @@ describe(ClipboardManagerExtension, () => {
                     .fn()
                     .mockReturnValue([makeSnippet({ id: 1, name: "apple" }), makeSnippet({ id: 2, name: "banana" })]),
                 add: vi.fn(),
+                update: vi.fn(),
                 delete: vi.fn(),
                 incrementUsage: vi.fn(),
             };
@@ -293,6 +296,7 @@ describe(ClipboardManagerExtension, () => {
             const snippetRepository = <SnippetRepository>{
                 getAll: vi.fn().mockReturnValue([makeSnippet({ id: 1, content: "Best regards" })]),
                 add: vi.fn(),
+                update: vi.fn(),
                 delete: vi.fn(),
                 incrementUsage: vi.fn(),
             };
@@ -309,6 +313,7 @@ describe(ClipboardManagerExtension, () => {
             const snippetRepository = <SnippetRepository>{
                 getAll: vi.fn().mockReturnValue([makeSnippet({ id: 7 })]),
                 add: vi.fn(),
+                update: vi.fn(),
                 delete: vi.fn(),
                 incrementUsage: vi.fn(),
             };
@@ -318,6 +323,74 @@ describe(ClipboardManagerExtension, () => {
             expect(result.after[0].additionalActions).toContainEqual(
                 expect.objectContaining({ handlerId: "deleteSnippet", argument: "7" }),
             );
+        });
+    });
+
+    describe(ClipboardManagerExtension.prototype.invoke, () => {
+        it("should return all snippets for a getAll argument", async () => {
+            const snippetRepository = <SnippetRepository>{
+                getAll: vi.fn().mockReturnValue([makeSnippet({ id: 1 })]),
+                add: vi.fn(),
+                update: vi.fn(),
+                delete: vi.fn(),
+                incrementUsage: vi.fn(),
+            };
+
+            const result = await createExtension({ snippetRepository }).invoke({ type: "getAll" });
+
+            expect(result).toEqual([makeSnippet({ id: 1 })]);
+        });
+
+        it("should add a snippet and return the updated list", async () => {
+            const snippetRepository = <SnippetRepository>{
+                getAll: vi.fn().mockReturnValue([makeSnippet({ id: 1 })]),
+                add: vi.fn(),
+                update: vi.fn(),
+                delete: vi.fn(),
+                incrementUsage: vi.fn(),
+            };
+
+            const result = await createExtension({ snippetRepository }).invoke({
+                type: "add",
+                name: "greeting",
+                content: "hi",
+            });
+
+            expect(snippetRepository.add).toHaveBeenCalledWith({ name: "greeting", content: "hi" });
+            expect(result).toEqual([makeSnippet({ id: 1 })]);
+        });
+
+        it("should update a snippet with the given id, name and content", async () => {
+            const snippetRepository = <SnippetRepository>{
+                getAll: vi.fn().mockReturnValue([]),
+                add: vi.fn(),
+                update: vi.fn(),
+                delete: vi.fn(),
+                incrementUsage: vi.fn(),
+            };
+
+            await createExtension({ snippetRepository }).invoke({
+                type: "update",
+                id: 1,
+                name: "renamed",
+                content: "changed",
+            });
+
+            expect(snippetRepository.update).toHaveBeenCalledWith({ id: 1, name: "renamed", content: "changed" });
+        });
+
+        it("should delete the snippet with the given id", async () => {
+            const snippetRepository = <SnippetRepository>{
+                getAll: vi.fn().mockReturnValue([]),
+                add: vi.fn(),
+                update: vi.fn(),
+                delete: vi.fn(),
+                incrementUsage: vi.fn(),
+            };
+
+            await createExtension({ snippetRepository }).invoke({ type: "delete", id: 1 });
+
+            expect(snippetRepository.delete).toHaveBeenCalledWith(1);
         });
     });
 });

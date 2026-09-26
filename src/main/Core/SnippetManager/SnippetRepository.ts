@@ -50,6 +50,14 @@ export class SnippetRepository implements SnippetRepositoryInterface {
         this.database.prepare("DELETE FROM snippets WHERE id = ?").run(id);
     }
 
+    public update(input: { id: number; name: string; content: string }): void {
+        const now = this.dateProvider.get().getTime();
+
+        this.database
+            .prepare("UPDATE snippets SET name = ?, content = ?, updated_at = ? WHERE id = ?")
+            .run(input.name, input.content, now, input.id);
+    }
+
     public incrementUsage(id: number): void {
         const now = this.dateProvider.get().getTime();
 

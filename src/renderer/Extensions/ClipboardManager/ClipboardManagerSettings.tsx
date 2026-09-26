@@ -5,6 +5,8 @@ import { SettingGroupList } from "@Core/Settings/SettingGroupList";
 import { Input, SpinButton } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 
+import { SnippetsSettings } from "./SnippetsSettings";
+
 export const ClipboardManagerSettings = () => {
     const extensionId = "ClipboardManager";
 
@@ -67,6 +69,7 @@ export const ClipboardManagerSettings = () => {
                     }
                 />
             </SettingGroup>
+            <SnippetsSettings />
         </SettingGroupList>
     );
 };

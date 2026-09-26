@@ -17,6 +17,11 @@ export interface SnippetRepository {
     delete(id: number): void;
 
     /**
+     * Updates the name and content of an existing snippet by id.
+     */
+    update(input: { id: number; name: string; content: string }): void;
+
+    /**
      * Increments the usage counter of a snippet.
      */
     incrementUsage(id: number): void;
